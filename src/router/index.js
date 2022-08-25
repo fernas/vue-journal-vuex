@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import isAuthenticatedGuard from '@/modules/auth/router/auth-guard'
 import daybookRouter from '@/modules/daybook/router'
+import authRouter from '@/modules/auth/router'
 
 const routes = [
   {
@@ -17,7 +19,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
+    path: '/auth',
+    ...authRouter
+  },
+  {
     path: '/daybook',
+    beforeEnter: [isAuthenticatedGuard],
     ...daybookRouter
   }
 ]
